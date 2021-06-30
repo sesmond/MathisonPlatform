@@ -6,8 +6,8 @@
 """
 1. 数据管理
 """
-
-
+import sqlacodegen
+# from
 def create_dataset():
     """
     创建数据集
@@ -22,3 +22,5 @@ def create_dataset():
 
 if __name__ == '__main__':
     create_dataset()
+#      sqlacodegen mysql://user:password@127.0.0.1:3306/ocr > models.py
+# pip install mysql-connector
