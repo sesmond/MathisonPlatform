@@ -86,6 +86,7 @@ class TTrainTask(Base):
     id = Column(BigInteger, primary_key=True)
     project_case_id = Column(BigInteger, comment='项目用例Id')
     case_name = Column(String(100), comment='用例名')
+    pid = Column(String(100), comment='训练时进程id')
     start_time = Column(DateTime, comment='任务开始时间')
     end_time = Column(DateTime, comment='任务结束时间')
     status = Column(String(20), comment='任务状态')

@@ -78,7 +78,7 @@ class DBUtils(object):
         根据主键id查询（这里所有数据库主键约定为id）
         :param cls:
         :param id:
-        :return:
+        :return:cls
         """
         res = self.session.query(cls).get(id)
         res = self.convert_entity(res)

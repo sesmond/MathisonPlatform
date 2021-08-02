@@ -7,8 +7,18 @@
 @file:train_task_service.py
 @time:2021/06/23
 """
+import logging
+import os
+import signal
+
 from app.main.db.db_tool import DBUtils
 from app.main.entity.models import TProjectCase, TProject, TTrainTask
+from app.main.utils import file_utils
+from mathison.abstract_train_service import AbstractTrainService, TrainParam
+
+logger = logging.getLogger(__name__)
+
+train_service = None
 
 
 def create_model(case: TProjectCase):
@@ -49,11 +59,43 @@ def start_train():
     # TODO !! 不同模型的训练
     project_id = 1
     project = db.get_by_id(TProject, project_id)
-    project:TProject
+    project: TProject
     project_url = project.project_url
     # TODO !! checkout 然后执行命令，然后就是项目内部的事情了，做好接口进行交互
 
+    # 1. checkout
+    # 项目存放路径
+    prj_path = ""
+    old_path = os.getcwd()
+    file_utils.check_path(prj_path)
+    # 2. 到项目内部，执行项目训练程序（传参），获取进程id
+    train_path = ""
+    os.chdir(train_path)
+    # 切换工作目录
+    real_train_cls = getattr()
+    param = TrainParam()
+    train_service = real_train_cls(param)
+    train_service: AbstractTrainService
+    signal.signal(signal.SIGUSR1, train_service.stop)
+    train_service.start()
+    # 训练结束后,恢复路径
+    os.chdir(old_path)
 
+
+def stop_train(task_id):
+    db = DBUtils()
+    task = db.get_by_id(TTrainTask, task_id)
+    task: TTrainTask
+    task.status
+    pid = task.pid
+    os.kill(pid, signal.SIGUSR1)
+
+
+def handle_stop(signum, frame):
+    print("当前项目id", os.getpid())
+    print('Received and handle:', signum)
+    train_service: AbstractTrainService
+    train_service.stop()
 
 
 if __name__ == '__main__':
